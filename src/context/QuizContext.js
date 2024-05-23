@@ -92,7 +92,7 @@ function QuizProvider({ children }) {
       .then((data) => {
         if (Array.isArray(data.questions)) {
           dispatch({ type: "dataReceived", payload: data.questions });
-          console.log(data.questions);
+          // console.log(data.questions);
         } else {
           throw new Error("Fetched data does not contain a valid questions array");
         }
