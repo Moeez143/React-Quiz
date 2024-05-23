@@ -11,7 +11,7 @@ import Footer from "./Footer";
 import Timer from "./Timer";
 import { useQuiz } from "../context/QuizContext";
 
-
+console.log("test");
 
 export default function App() {
   const {status} = useQuiz();
