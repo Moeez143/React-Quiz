@@ -82,15 +82,21 @@ function QuizProvider({ children }) {
   ] = useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
-  const maxPossiblePoints = questions.reduce(
-    (perv, cur) => perv + cur.points,
-    0
-  );
+  const maxPossiblePoints = Array.isArray(questions)
+    ? questions.reduce((prev, cur) => prev + (cur.points || 0), 0)
+    : 0;
 
   useEffect(() => {
-    fetch("http://localhost:8000/questions")
+    fetch("/data/questions.json")
       .then((res) => res.json())
-      .then((data) => dispatch({ type: "dataReceived", payload: data }))
+      .then((data) => {
+        if (Array.isArray(data.questions)) {
+          dispatch({ type: "dataReceived", payload: data.questions });
+          console.log(data.questions);
+        } else {
+          throw new Error("Fetched data does not contain a valid questions array");
+        }
+      })
       .catch((err) => dispatch({ type: "dataFailed" }));
   }, []);
 
