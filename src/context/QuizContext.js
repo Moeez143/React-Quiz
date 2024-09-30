@@ -87,15 +87,13 @@ function QuizProvider({ children }) {
     : 0;
 
   useEffect(() => {
-    fetch("/data/questions.json")
+    fetch(
+      "https://my-json-server.typicode.com/Moeez143/react-quiz-api/questions"
+    )
       .then((res) => res.json())
       .then((data) => {
-        if (Array.isArray(data.questions)) {
-          dispatch({ type: "dataReceived", payload: data.questions });
-          // console.log(data.questions);
-        } else {
-          throw new Error("Fetched data does not contain a valid questions array");
-        }
+        // console.log(data);
+        dispatch({ type: "dataReceived", payload: data });
       })
       .catch((err) => dispatch({ type: "dataFailed" }));
   }, []);
@@ -121,10 +119,10 @@ function QuizProvider({ children }) {
 }
 
 function useQuiz() {
-    const context = useContext(QuizContext);
-    if(context === undefined)
-        throw new Error("QuizContext use outside the QuizProvider");
-    return context;
+  const context = useContext(QuizContext);
+  if (context === undefined)
+    throw new Error("QuizContext use outside the QuizProvider");
+  return context;
 }
 
-export {QuizProvider, useQuiz}
+export { QuizProvider, useQuiz };
